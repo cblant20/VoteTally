@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Masquerade Vote Tracker</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="../javascript/voteTracker.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/foundation.css">
+	<link rel="stylesheet" type="text/css" href="../css/custom.css">
+</head>
+
+<body>
+	<div class="row">
+		<div class="columns small-12">
+			<h1> Masquerade Vote Tracker </h1>
+			<br>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12">
+			<h3> Tally a Vote </h3>
+			<input id="voteNum" placeholder="Entry Number" type="text">
+			<button id="submitVote">Tally</button>
+			<br>	
+			<br>	
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12">
+
+			<h3> Select Highest Votes </h3>
+			<input id="numVotes" placeholder="Number of entries" type="number">
+			<button id="getTopVotes">Get Top Entries</button>
+			<br>
+			<br>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12">
+			<h3> Display All Votes </h3>
+			<button id="displayAllVotes">Display</button>
+		</div>
+		<br>
+		<br>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12">
+			<div id="voteDisplay"></div>
+		</div>
+	</div>
+
+</body>
+</html>
