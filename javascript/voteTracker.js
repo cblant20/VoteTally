@@ -1,8 +1,10 @@
 var allVotes = {};
-var numVotes = 0;
+var numEntries = 0;
 var isSorted = false;
+var lastVote;
 
 $(document).ready(function() {
+
 	$('#submitVote').click(function() {
 		entryNumber = $('#voteNum').val();
 		$('#voteNum').val("");
@@ -11,32 +13,50 @@ $(document).ready(function() {
 			isSorted = false;
 
 			index = indexOfEntryNumber(entryNumber);
+			lastVote = entryNumber;
 
 			if(index >= 0){
 				currentEntry = allVotes[index];
 				currentEntry.votes = currentEntry.votes + 1;
 			}
 			else {
-				allVotes[numVotes] = {number: entryNumber, votes: 1};
-				numVotes++;
+				allVotes[numEntries] = {number: entryNumber, votes: 1};
+				numEntries++;
 			}
+
+			$("#lastVote").html("<p class='green'>" + lastVote + " added! </p>");
+
 		}
 	});
 
+	$("#undo").click(function() {
+		index = indexOfEntryNumber(entryNumber);
+		currentEntry = allVotes[index];
+		currentEntry.votes = currentEntry.votes - 1;
+		numEntries--;
+
+		$("#lastVote").html("<p class='red'>" + lastVote + " removed! </p>");
+	});
+
 	$('#getTopVotes').click(function() {
-		displayVotes($('#numVotes').val());
+		topEntries = $('#numVotes').val();
+		if(topEntries <= numEntries){
+			displayVotes(topEntries);
+		} else {
+			displayVotes(numEntries);
+		}
 
 		$('#numVotes').val("");
 	});
 
 	$('#displayAllVotes').click(function() {
-		displayVotes(numVotes);
+		displayVotes(numEntries);
 	});
 
 });
 
 function indexOfEntryNumber(number){
-	for(var i=0; i<numVotes; i++){
+	for(var i=0; i<numEntries; i++){
 		if(allVotes[i].number == number){
 			return i;
 		}
@@ -44,21 +64,21 @@ function indexOfEntryNumber(number){
 	return -1;
 }
 
-function displayVotes(numEntries){
-	if (!isSorted && numVotes > 1) {
-		quickSort(allVotes, 0, numVotes - 1);
+function displayVotes(numberOfEntries){
+	if (!isSorted && numEntries > 1) {
+		quickSort(allVotes, 0, numEntries - 1);
 		isSorted = true;
 	}
 
-	buildHTML(numEntries);
+	buildHTML(numberOfEntries);
 }
 
-function buildHTML(numEntries){
+function buildHTML(numberOfEntries){
 	var entryList;
-	if(numEntries && numEntries > 0){
+	if(numberOfEntries && numberOfEntries > 0){
 		entryList = "<br><h3>All Entries </h3>";
 
-		for(var i=0; i < numEntries; i++){
+		for(var i=0; i < numberOfEntries; i++){
 			entryList += "<p> Entry: " + allVotes[i].number + " Votes: " + 
 				allVotes[i].votes + "</p>";
 		}

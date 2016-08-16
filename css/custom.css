@@ -10,3 +10,12 @@ button {
     border-radius: 15px;
     font-weight: bold;
 }
+.undo{
+    background-color: red; 
+}
+.green{
+	color:green;
+}
+.red{
+	color: red;
+}
