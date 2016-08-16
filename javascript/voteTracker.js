@@ -4,19 +4,22 @@ var isSorted = false;
 
 $(document).ready(function() {
 	$('#submitVote').click(function() {
-		isSorted = false;
 		entryNumber = $('#voteNum').val();
 		$('#voteNum').val("");
 
-		index = indexOfEntryNumber(entryNumber);
+		if(Boolean(entryNumber) && entryNumber != ' ' && entryNumber != 0){
+			isSorted = false;
 
-		if(index >= 0){
-			currentEntry = allVotes[index];
-			currentEntry.votes = currentEntry.votes + 1;
-		}
-		else {
-			allVotes[numVotes] = {number: entryNumber, votes: 1};
-			numVotes++;
+			index = indexOfEntryNumber(entryNumber);
+
+			if(index >= 0){
+				currentEntry = allVotes[index];
+				currentEntry.votes = currentEntry.votes + 1;
+			}
+			else {
+				allVotes[numVotes] = {number: entryNumber, votes: 1};
+				numVotes++;
+			}
 		}
 	});
 
@@ -42,7 +45,7 @@ function indexOfEntryNumber(number){
 }
 
 function displayVotes(numEntries){
-	if (!isSorted) {
+	if (!isSorted && numVotes > 1) {
 		quickSort(allVotes, 0, numVotes - 1);
 		isSorted = true;
 	}
@@ -51,14 +54,19 @@ function displayVotes(numEntries){
 }
 
 function buildHTML(numEntries){
-	var entryList = "<h3>All Votes </h3>";
+	var entryList;
+	if(numEntries && numEntries > 0){
+		entryList = "<br><h3>All Entries </h3>";
 
-	for(var i=0; i < numEntries; i++){
-		entryList += "<p> Entry: " + allVotes[i].number + " Votes: " + 
-			allVotes[i].votes + "</p>";
+		for(var i=0; i < numEntries; i++){
+			entryList += "<p> Entry: " + allVotes[i].number + " Votes: " + 
+				allVotes[i].votes + "</p>";
+		}
+	} else{
+		entryList = "<br><h3>No Entries </h3>";
 	}
-
 	$("#voteDisplay").html(entryList);
+
 }
 
 function quickSort(items, left, right) {
