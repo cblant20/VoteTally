@@ -4,6 +4,7 @@ var isSorted = false;
 var lastVote;
 
 $(document).ready(function() {
+	initializeData();
 
 	$('#submitVote').click(function() {
 		entryNumber = $('#voteNum').val();
@@ -17,13 +18,20 @@ $(document).ready(function() {
 
 			if(index >= 0){
 				currentEntry = allVotes[index];
-				currentEntry.votes = currentEntry.votes + 1;
+				currentEntry.votes += 1;
+
+				if (typeof(Storage) !== "undefined") {
+					localStorage.setItem(currentEntry.number, currentEntry.votes);
+				}
 			}
 			else {
 				allVotes[numEntries] = {number: entryNumber, votes: 1};
 				numEntries++;
-			}
 
+				if (typeof(Storage) !== "undefined") {
+					localStorage.setItem(entryNumber, 1);
+				}
+			}
 			$("#lastVote").html("<p class='green'>" + lastVote + " added! </p>");
 
 		}
@@ -54,6 +62,17 @@ $(document).ready(function() {
 	});
 
 });
+
+function initializeData(){
+	if(localStorage.length > 0){
+		for (var i = 0; i < localStorage.length; i++){
+			key = localStorage.key(i);
+			value = localStorage.getItem(key);
+		    allVotes[i] = {number: key, votes: parseInt(value)};
+		}
+		numEntries = localStorage.length;
+	}
+}
 
 function indexOfEntryNumber(number){
 	for(var i=0; i<numEntries; i++){
