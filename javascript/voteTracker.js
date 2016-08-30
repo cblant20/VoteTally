@@ -41,6 +41,7 @@ $(document).ready(function() {
 		index = indexOfEntryNumber(entryNumber);
 		currentEntry = allVotes[index];
 		currentEntry.votes = currentEntry.votes - 1;
+		localStorage.setItem(currentEntry.number, currentEntry.votes);
 		numEntries--;
 
 		$("#lastVote").html("<p class='red'>" + lastVote + " removed! </p>");
